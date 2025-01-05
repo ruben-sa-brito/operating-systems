@@ -6,7 +6,7 @@ This file contains the solutions to the exercises from Chapter 1 of the book **"
 
 ## Exercise 1
 
-**Question**
+**Question:**
 Quais são as duas principais funções de um sistema operacional?
 
 **Answer:**
@@ -16,7 +16,7 @@ Um sistema operacional está relacionado principalmente a duas funções:
 
 ## Exercise 2
 
-**Question**
+**Question:**
 O que é multiprogramação?
 
 **Answer:**
@@ -24,7 +24,7 @@ Quando uma tarefa faz uma pausa para esperar por outra operação de E/S, a CPU 
 
 ## Exercise 3
 
-**Question**
+**Question:**
 Na Seção 1.4, são descritos nove tipos diferentes de sistemas operacionais. Liste as possíveis aplicações para cada um desses sistemas.
 
 **Answer:**
@@ -47,7 +47,7 @@ e limitadas como pagamentos eletrônicos, mas outros podem realizar múltiplas f
 
 ## Exercise 4
 
-**Question**
+**Question:**
 Para usar a memória cache, a memória principal é dividida em linhas de cache, em geral com 32 a 64 bytes de comprimento.
 Uma linha inteira armazenada em cache de uma só vez. 
 Qual a vantagem de armazenar uma linha inteira em vez de um único byte ou palavra de cada vez?
@@ -59,7 +59,7 @@ programas utilizam endereços que estão mais proximos entao a probabilidade de 
 
 ## Exercise 5
 
-**Question**
+**Question:**
 O que é spooling? Você acredita que os computadores pessoais avançados terão o spooling como recurso padrão no futuro?
 
 **Answer:**
@@ -70,7 +70,7 @@ em velocidades diferentes, uma impressora por exemplo é bem mais lenta para con
 
 ## Exercise 6
 
-**Question**
+**Question:**
 Nos primeiros computadores, cada byte de dados lido ou escrito era 
 gerenciado pela CPU (i.e., não havia DMA). Quais as implicações isso tem para a multiprogramação.
 
@@ -81,7 +81,7 @@ o uso da CPU se tornou mais eficiente pois o sistema era capaz de executar outra
 
 ## Exercise 7
 
-**Question**
+**Question:**
 Por que o conceito de tempo compartilhado não foi tão disseminado nos computadores de segunda geração?
 
 **Answer:**
@@ -92,7 +92,7 @@ na física e na engenharia, ou seja a prioridade era o tempo de processamento e 
 
 ## Exercise 8
 
-**Question**
+**Question:**
 Instruções relacionadas ao acesso a dispositivos de E/S são tipicamente instruções privilegiadas, 
 isto é, podem ser executadas em modo núcleo
 , mas não em modo usuário. Dê uma razão por que essas instruções são privilegiadas. 
@@ -104,7 +104,7 @@ atualmente o sistema operacional que opera todos os drivers no modo usuário com
 
 ## Exercise 9
 
-**Question**
+**Question:**
 Uma razão para a adoção inicialmente lenta das GUIs era o custo do hardware necessário para dar suporte a elas. Qaunta RAM 
 de vídeo é necessária para dar suporte a uma tela de texto monocromática de 25 linhas X 80 colunas de caracteres? E para um bitmap colorido de 24 bits de 1.024 X 768 pixels?
 Qual era o custo dessa RAM em valores de 1980(US$ 5/KB)? Quanto isso custa agora?
@@ -126,7 +126,7 @@ Esse avanço no custo-benefício explica a popularização das interfaces gráfi
 
 ## Exercise 10
 
-**Question**
+**Question:**
 Há diversos objetos de projeto na construção de um sistema operacional, por exemplo, utilização de recursos, precisão temporal
 robustez e assim por diante. Dê um exemplo de dois objetivos de projetos que podem contradizer um ao outro.
 
@@ -136,7 +136,7 @@ e o projetista deve decidir qual vai ser a prioridade, por exemplo: Desempenho v
 
 ## Exercise 11
 
-**Question**
+**Question:**
 Qual a diferença entre modo núcleo e modo usuário? Explique como ter dois modos ajuda no projeto de sistemas operacionais.
 
 **Answer:**
@@ -149,7 +149,7 @@ prejudicar o sistema ou obter algum tipo de vantagem.
 
 ## Exercise 12
 
-**Question**
+**Question:**
 Um disco de 255 GB tem 65.536 cilindros com 255 setores por faixa e 512 bytes por setor. 
 Quantos pratos e cabeças esse disco tem? Presumiindo
 um tempo de busca de cilindro médio de 11ms, 
@@ -172,7 +172,7 @@ eu considerei que esses 100KB estão distribuidos em diversos setores de 512 byt
 
 ## Exercise 13
 
-**Question**
+**Question:**
 Considere um sistema que tem duas CPUs, cada uma tendo duas threads (hyperthreading). 
 Suponha que três programas, P0, P1, P2, sejam iniciados
 com tempos de execução de 5, 10 e 20ms, respectivamente. 
@@ -186,8 +186,9 @@ com tempo total de 20ms, totalizando 20ms de tempo de processamento.
 
 ## Exercise 14
 
-**Question**
+**Question:**
 Liste algumas diferenças entre os sistemas operacionais de computador pessoal e sistemas operacionais de mainframe.
+
 **Answer:**
 O sistema operacional para computadores de grande porte são orientado a multiprocessamento, a maioria delas exigindo quantidades
 prodigiosas de E/S. Ja sistemas operacionais de computador pessoal tem como objetivo proporcionar um bom apoio para um único usuário e não precisam
@@ -195,9 +196,10 @@ suportar quantidades exorbitantes de E/S.
 
 ## Exercise 15
 
-**Question**
+**Question:**
 Um computador tem um pipeline com quatro estágios. Cada estágio leva um tempo para fazer seu trabalho, isto é, 1ns.
 Quantas instruções por segundo essa máquina consegue executar?
+
 **Answer:**
 Se o pipeline tem quatro estágios isso significa que a instrução pode ser dividada em 4 partes, 
 e entao 4 instruções podem ser executadas ao mesmo tempo, cada uma em um estágio diferente
@@ -205,13 +207,14 @@ e entao 4 instruções podem ser executadas ao mesmo tempo, cada uma em um está
 
 ## Exercise 16
 
-**Question**
+**Question:**
 Considere um sistema de computador que tem uma memória cache, memória principal (RAM) e disco,
  e um sistema operacional que usa memória
 virtual. São necessários 2 ns para acessar uma palavra da cache. 
 10 ns para acessar uma palavra da RAM e 10 ms para acessar uma palavra do disco
 . Se o índice de acerto da cache é 95% e o índice de acerto da memória principal
  (após um erro de cache) é 99%, qual é o tempo médio para acessar uma palavra.
+ 
 **Answer:**
 Primeiros convertemos 10 ms em ns para trabalharmos com as mesmas unidades de tempo, 10ms = 1000000ns
 95% terão tempo de 2ns = 95, mulitplicando pelo tempo correspondente: 95 * 2ns = 190ns
@@ -222,7 +225,7 @@ reposta: tempo médio para acessar uma palavra é de 502,395ns
 
 ## Exercise 17
 
-**Question**
+**Question:**
 Quando um programa de usuário faz uma chamada de sistema para ler ou escrever um arquivo de disco, 
 ele fornece uma indicação de qual arquivo ele quer, um ponteiro para o buffer de dados e o contador.
 O controle é então transferido para o sistema operacional, que chama o driver apropriado.
@@ -238,7 +241,7 @@ mas isso vai depender do processo em si.
 
 ## Exercise 18
 
-**Question**
+**Question:**
 Qual a principal diferença entre uma captura(trap) e uma interrupção?
 
 **Answer:**
@@ -252,7 +255,7 @@ o momento de término assim não é necessário verificações repetidas.
 
 ## Exercise 19
 
-**Question**
+**Question:**
 Existe alguma razão para que voce quisesse montar um sistema de arquivos em um diretório vazio? Se a resposta for sim, por quê?
 
 **Answer:**
@@ -261,7 +264,7 @@ que seu sistema de arquivos estara integrada ao sistema, podendo assim usar as m
 
 ## Exercise 20
 
-**Question**
+**Question:**
 Qual a finalidade de uma chamada de sistema em um sistema operacional?
 
 **Answer:**
@@ -273,7 +276,7 @@ processos que estão sendo executados no mesmo hardware atraves da camada de ger
 
 ## Exercise 21
 
-**Question**
+**Question:**
 Dê uma razão pela qual montar sistemas de arquivos é uma opção de projeto melhor do que prefixar
 nomes de caminho com um nome ou número de unidade.
  Explique por que os sistemas de arquivos são quase sempre montados em diretórios vazios.
@@ -284,7 +287,7 @@ em qual unidade de disco ele está. Eles são montados em diretórios vazios par
 
 ## Exercise 22
 
-**Question**
+**Question:**
 Para cada uma das chamadas de sistema a seguir, dê uma condição que a faça falhar: open, close e lseek.
 
 **Answer:**
@@ -294,7 +297,7 @@ lseek() - mover o ponteiro para um local que nao existe no arquivo
 
 ## Exercise 23
 
-**Question**
+**Question:**
 Qual tipo de multiplexação (tempo, espaço ou ambos) pode ser usado para compartilhar os seguintes recursos:
 CPU, memória, disco/SSD, placa de rede, impressora, teclado e monitor?
 
@@ -308,7 +311,7 @@ Monitor - Ambos
 
 ## Exercise 24
 
-**Question**
+**Question:**
 A chamada count=write(fd, buffer, nbytes);
 pode retornar qualquer valor em count além de nbytes? Se a resposta for sim, por quê?
 
@@ -318,7 +321,7 @@ ele tambem pode retornar um valor diferente em um caso onde ele nao consiga escr
 
 ## Exercise 25
 
-**Question**
+**Question:**
 Um arquivo cujo descritor é fd contém a sequência de bytes: 2, 7, 1, 8, 2, 8, 1, 8, 2, 8, 4.
  São feitas as seguintes chamadas de sistema:
 lseek(fd, 3, SEEK_SET);
@@ -331,7 +334,7 @@ lseek o retorno de read será: 8,2,8,1
 
 ## Exercise 26
 
-**Question**
+**Question:**
 Suponha que um arquivo de 10MB esteja armazenado em um disco na mesma trilha (trilha 50) em setores consecutivos. 
 O braço do disco está atualmente situado sobre trilha número 100. 
 Quanto tempo ele levará para ler esse arquivo do disco? Suponha que ele leve em torno de 1ms
@@ -347,7 +350,7 @@ Tempo total: 50ms + 5ms + 100ms = 155ms
 
 ## Exercise 27
 
-**Question**
+**Question:**
 Qual a diferença essencial entre um arquivo especial de bloco e um arquivo especial de caractere.
 
 **Answer:**
@@ -356,7 +359,7 @@ de caracteres sao utilizados para modelar dispositivos que utilizam um fluxo de 
 
 ## Exercise 28
 
-**Question**
+**Question:**
 No exemplo 1.17, o procedimento de biblioteca é chamado de read e a chamada de sistema em si é chamada read e a 
 chamada de sistema em si é chamada read. É fundamental 
 que ambos tenham o mesmo nome? Se não, qual é o mais importante?
@@ -368,7 +371,7 @@ Então essa questão é subjetiva ao design do sistema operacional.
 
 ## Exercise 29
 
-**Question**
+**Question:**
 O modelo cliente-servidor é popular nos sistemas distribuídos. Ele também pode ser usado em um sistema de computador único?
 
 **Answer:**
@@ -380,7 +383,7 @@ conceitualmente ainda estamos no modelo cliente-servidor.
 
 ## Exercise 30
 
-**Question**
+**Question:**
 Para um programador, uma chamada de sistema parece com qualquer outra
 chamada para um procedimento de biblioteca. É importante
 que um programador saiba quais procedimentos de biblioteca
@@ -392,10 +395,11 @@ pode ser realizado sem fazer uma chamada de sistema ele será feito no espaço d
 
 ## Exercise 31
 
-**Question**
+**Question:**
 A figura 1.23 mostra que uma série de chamadas de sistema UNIX não possuem equivalentes na API Win32. 
 Para cada uma das chamadas listadas como não tendo um equivalente Win32, quais são as consequências para um programador
 de converter um programa UNIX para ser executado sob o Windows?
+
 **Answer:**
 Fica claro que as chamadas de sistema devem ser convertidas para a do sistema em questão, até mesmo as que tem chamadas semelhantes
 ainda possuem parâmetros diferentes forçando o programador modificar o sistema para se adequar. Para aquelas que não possuem correspondente direto
@@ -403,7 +407,7 @@ pode ser necessário repensar a lógica do sistema.
 
 ## Exercise 32
 
-**Question**
+**Question:**
 Um sistema operacional portátil é um sistema que pode ser levado de um arquitetura de sistema para outra
 sem nenhuma modificação. Explique por que é impraticável construir um sistema operacional que seja completamente portátil;
 Descreva duas camadas de alto nível que você terá ao projetar um sistema operacional que seja altamente portátil.
@@ -419,7 +423,7 @@ lidam com uma infidade de dispositvos perifericos para garantir a portabilidade.
 
 ## Exercise 33
 
-**Question**
+**Question:**
 Explique como a separação de política e mecanismo ajuda na construção de sistemas operacionais baseados em micronúcleos.
 
 **Answer:**
@@ -429,7 +433,7 @@ são ações realizadas em baixo nível no modo núcleo, enquanto as políticas 
 
 ## Exercise 34
 
-**Question**
+**Question:**
 Máquinas virtuais tornaram-se muito populares por diversos motivos. Não obstante, elas tem alguns problemas, cite um.
 
 **Answer:**
@@ -438,7 +442,7 @@ O primeiro problema é o desempenho, diferente de um container a máquina virtua
 
 ## Exercise 35
 
-**Question**
+**Question:**
 Veja a seguir algumas questões para praticar conversões:
 (a) Quantos segundos há em um microano?
 (b) Micrômetros são muitas vezes chamados de mícrons. Qual é o comprimento de um gigamícrons?
