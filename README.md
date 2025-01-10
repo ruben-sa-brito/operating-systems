@@ -25,4 +25,4 @@ As soluções estão organizadas por capítulos, seguindo a estrutura do livro. 
 
 - As soluções apresentadas refletem a minha interpretação e podem diferir de outras abordagens.
 - Sempre consulte o material original e, se necessário, discuta as soluções com colegas ou professores.
-- Cada capítulo será adicionado à medida que eu for avançando, pode levar um tempo até todos estejam disponíveis.
+- Cada capítulo será adicionado à medida que eu for avançando, pode levar um tempo até que todos estejam disponíveis.
