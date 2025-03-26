@@ -20,6 +20,7 @@ As soluções estão organizadas por capítulos, seguindo a estrutura do livro. 
 ## Atalhos para os Capítulos
 
 - [Capítulo 1 - Introdução](capitulo1.md)
+- [Capítulo 2 - Processos e threads](capitulo2.md)
 
 ## Observações
 
