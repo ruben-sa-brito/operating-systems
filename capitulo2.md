@@ -1,4 +1,4 @@
-# Chapter 1 - Processos e Threads
+# Chapter 2 - Processos e Threads
 
 This file contains the solutions to the exercises from Chapter 1 of the book **"Operating Systems"** by Andrew S. Tanenbaum.
 
