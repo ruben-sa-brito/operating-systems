@@ -558,8 +558,8 @@ A condição de corrida aconteceu muito rapidamente ao executar o script em [rac
 
 Já na execução do segundo script [race_lock.sh](./codes/race_lock.sh)com controle atraves de um lock não foi identificada condição de corrida. 
 
-A região critica representada em  [numbers_lock.sh](./codes/numbers_lock.txt) com controle
-E [numbers.sh](./codes/numbers_lock.txt) região sem controle, contem os números gerados quando fiz os testes e executei os scripts.
+A região critica representada em  [numbers_lock.txt](./codes/numbers_lock.txt) com controle
+E [numbers.txt](./codes/numbers_lock.txt) região sem controle, contem os números gerados quando fiz os testes e executei os scripts.
 
 
 
