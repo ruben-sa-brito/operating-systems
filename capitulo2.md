@@ -556,10 +556,10 @@ para travar o arquivo de dados.
 
 A condição de corrida aconteceu muito rapidamente ao executar o script em [race.sh](./codes/race.sh), proximo de 1 segundo de tempo de execução ja foi possível identifica-la, na linha 1256 do arquivo numbers.txt temos um exemplo, o que aconteceu aqui é que o primeiro processo leu a ultima linha(valor 1248) e antes de poder realizar a escrita foi interrompido, o segundo processo então obteve acesso a região crítica leu a ultima linha(1248) e armazenou o valor 1249 na ultima linha do arquivo, o primeiro processo voltou a execução com o valor incorreto da ultima linha realizou a soma (1248 + 1) e armazenou novamento na ultima linha o valor 1249.
 
-Já na execução do segundo script [race_lock.sh](./codes/race_lock.sh)com controle atraves de um lock não foi identificada condição de corrida. 
+Já na execução do segundo script [race_lock.sh](./codes/race_lock.sh)com controle atraves de um lock file não foi identificada condição de corrida. 
 
 A região critica representada em  [numbers_lock.txt](./codes/numbers_lock.txt) com controle
-E [numbers.txt](./codes/numbers_lock.txt) região sem controle, contem os números gerados quando fiz os testes e executei os scripts.
+e [numbers.txt](./codes/numbers_lock.txt) região sem controle, contem os números gerados quando fiz os testes e executei os scripts.
 
 
 

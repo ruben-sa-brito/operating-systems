@@ -1,10 +1,15 @@
 #!/bin/bash
-sleep 5
 
-LOCK_FILE="./file.lock"
-echo "File in use. Waiting for unlock"
+NUMBERS_FILE="numbers_lock.txt"
+LOCK_FILE="/tmp/script_lck.lock"
+
 while true; do
-    flock -x $LOCK_FILE -c "
+    if ln -s "$$" "$LOCK_FILE" 2>/dev/null; then
         echo $(($(tail -n 1 numbers_lock.txt) +1)) >> numbers_lock.txt
-    "
+        echo "I'm here"
+        rm -f "$LOCK_FILE"
+    else
+        echo "Another process is in the critical region."
+    fi
 done
+
