@@ -266,5 +266,301 @@ Quando um computador está sendo desenvolvido, normalmente ele é primeiro simul
 
 **Answer:**
 
-Levando em conta que uma simulação estritamente sequencial nao há interrupçoes e troca de contexto a condição de corrida torna-se impossível, pois ela só ocorre quando mais de uma thread ou processo acessa uma região crítica.
+Levando em conta que em uma simulação estritamente sequencial nao há interrupçoes e troca de contexto a condição de corrida torna-se impossível, pois ela só ocorre quando mais de uma thread ou processo acessa uma região crítica.
+
+## Question 29
+
+O problema do produtor-consumidor pode ser ampliado para um sistema com múltiplos produtores e consumidores que escrevem (ou leem) em (ou de) um buffer compartilhado. Suponha que todos os produtores e consumidores executem em sua própria thread. A solução apresentada na figura 2.28, utilizando semáforos, funcionaria para esse sistema?
+
+**Answer:**
+
+Os semáforos foram projetados para acumular sinais para que nenhum seja perdido, entao sim, semáforos funcionam até quando se tem muitos produtores e consumidores.
+
+## Question 30
+
+Considere a solução a seguir para o problema da exclusão mútua envolvendo dois processos P0 e P1. Suponha que a variável turn seja inicializada em 0. O código do processo P0 é apresentado a seguir:
+
+```C
+while(turn != 0){} /* Não faz nada e espera */
+Critical Section
+turn = 0 
+```
+
+Para o processo em P1, substitua 0 por 1 no código anterior. Determine se a solução atende as condições exigidas para uma solução de exclusão mútua.
+
+**Answer:**
+
+Os processos não estão modificando a variavel turn para dar oportunidade para que o outro processo entre na região crítica, a condição de espera de P0 é que turn seja diferente de 0, mas como P0 não definie turn para 1 ele nunca ficará em espera e P1 nunca entrará na região crítica.
+Para corrigir esse problema, após sair da seção crítica, P0 deve configurar turn = 1, e P1 deve configurar turn = 0. Isso garantirá a alternância entre os processos, evitando que um deles fique preso esperando indefinidamente.
+
+## Question 31
+
+Mostre como semáforos contadores (semáforos que podem armazenar um valor arbitrário) podem ser implementados usando apenas semáforos binários e instruções de máquina comuns.
+
+**Answer:**
+
+Podemos usar duas chamadas down e up (correspondem a sleep e wakeup). A operação down em um semáforo confere para ver se o valor é maior que 0. Se for, ele decrementa o valor (gasta um sinal de despertar armazenado) e apenas continua. Se o valor for 0, o processo é colocado para dormir sem completar down para o momento. Conferir o valor, modificá-lo é realizado como uma única ação atômica indivisivel. 
+A operação up incrementa o valor de um determinado semáforo. Se um ou mais processos estiverem dormindo naquele semáforo, incapazes de completar uma operação down anteriro, um deles é escolhido pelo sistema e é autorizado a completar seu down.
+
+## Question 32
+
+Se um sistema tem apenas dois processos, faz sentido usar uma barreira para sincronizá-los? Por que ou por que não?
+
+**Answer:**
+
+Barreiras são mecanismos que impedem que um processo continue antes que outros processos terminem seu trabalho, ou seja, dois processos podem ser dependentes caso precisem sincronizar suas execuções, por exemplo, um processo pode gerar um conjunto de dados que é entregue para outro processo, nesse caso faz sentido que este espere um período até que ambos tenham terminado seus serviços.
+
+## Question 33
+
+É possível que duas threads no mesmo processo sincronizem usando um semáforo do núcleo se as threads são implementadas pelo núcleo? E se elas são implementadas no espaço do usuário? Suponha que nenhuma thread em qualquer outro processo tenha acesso ao semáforo. Discuta suas respostas.
+
+**Answer:**
+
+Threads de núcleo podem usar semáforos de núcleo, ja threads de usuario teriam um problema ao usar semáforos de núcleo, o sistema operacional não tem conhecimento das threads de usuário e portanto ele nao poderia direcionar os sinais, sinais de dormir ou despertar seriam aplicados ao processo inteiro e não a uma thread específica.
+
+
+## Question 34
+
+Suponha que temos um sistema de transmissão de mensagens usando caixas de correio. Quando envia para uma caixa de correio chei ou tenta receber de uma vazia, um processo não é bloqueado. Em vez disso ele recebe de volta um código de erro. O processo responde ao código de erro apenas tentando de novo, repetidas vezes, até ter sucesso. Esse esquema ocasiona condições de corrida?
+
+**Answer:**
+
+Depende um pouco de como o sistema foi implementado, suponha que ao lotar a caixa de mensagens o processo responsavel por configurar a mensagem de erro tenha sido interrompido antes de ter a oportunidade de realizar sua ação, o processo responsavel por alimentar a caixa de mensagem entra em execução, como o sistema não está logicamente preparado para impedir a ação do produtor ele pode acabar sobrescrevendo uma das mensagem em uma condição de corrida.
+
+Entretanto se os processos responsaveis por produzir e consumir mensagens tambem são responsaveis por controlar a configuração, a situação pode mudar um pouco, como a ação é não bloqueante o processo responsavel por produzir a mensagem verifica se a caixa está lotada e então configura o valor corretamente em uma ação não bloqueante impedindo que outros produtores tenham sobrescrevam a caixa de mensagem.
+
+## Question 35
+
+Os computadores CDC 6600 podiam lidar com até 10 processos de E/S simultaneamente usando uma forma interessante de escalonamento circular chamado de compartilhamento de processador. Uma troca de processo ocorria após cada instrução, de maneira que a isntrução 1 vinha do processo 1, a instrução 2 do processo 2 etc. A troca de processo era realizada por um hardware especial e o overhead era zero, Se um processo precisasse de T segundos para ser completado na ausência de concorrência, de quanto tempo ele precisaria se o compartilhamento de processador fosse usado com n processos?
+
+**Answer:**
+
+O tempo de processador seria dividido entre os n processos, se um processo leva T segundos para concluir sua operação com n processos no sistema ele levaria n*T segundos.
+
+## Question 36
+
+Considere o fragmento de código em C a seguir:
+
+```C
+void main(){
+    fork();
+    fork();
+    exit();
+}
+```
+Quantos processos-filho são criados com a execução desse programa?
+
+**Answer:**
+
+Na primeira chamada `fork()` é criado mais um processo, já na segunda chamada, ambos os processos executam o segundo `fork()`, totalizando agora 4 processos em execuçao.
+
+## Question 37
+
+Escalonadores circulares em geral mantêm uma lista de todos os processos executáveis, com cada processo ocorrendo exatamente uma vez na lista. O que aconteceria (por parte do escalonador) se um processo ocorresse duas vezes na lista? Você consegue pensar em qualquer razão para permitir isso?
+
+**Answer:**
+
+Bem, com o mesmo quantum para todos os processos é como se o processo que ocorresse duas vezes na lista tivesse o dobro de tempo de execução, o processo obtem uma prioridade maior que os outros e mais tempo de CPU, é justamente a situação onde pode existir uma razão de permitir isso, prioridade de processos.
+
+## Question 38
+
+É possível determinar se um processo é propenso a se tornar vinculado à CPU ou vinculado à E/S analisando o código fonte? Como isso pode ser determinado em tempo de execução?
+
+**Answer:**
+
+O sistema operacional precisaria avaliar quais ações o processo executa mais com base no código fonte e fazer uma estimativa do que levaria mais tempo se é E/S ou processamento.
+
+
+## Question 39
+
+Na seção "quando escalonar", foi mencionado que o escalonamento às vezes poderia ser melhorado se um processo importante pudesse desempenhar um papel na escolha do próximo processo a ser executado quando ele for bloqueado. Indique uma situação em que isso poderia ser usado e explique como.
+
+**Answer:**
+
+Um precesso A pode estar esperando a liberação de uma região critica que está sendo utilizada pelo processo B, ao ser interrompido A pode informar que deseja que o processo B termine sua execução e libere a região crítica, assim o processo de alta prioridade A pode concluir sua operação. O problema é que o escalonador geralmente nao tem essa informação para levar em consideração.
+
+## Question 40
+
+Explique como o valor quantum de tempo e o tempo de troca de contexto afetam um ao outro, em um algoritmo de escalonamento circular.
+
+**Answer:**
+
+Parte do tempo do quantum é utilizado para troca de contexto, digamos que cada processo possui 4ms de quantum e 1ms é utilizado para troca de processos, ou seja 20%, isso significa que uma parecela muito relevante desse tempo é desperdiciada apenas para passagem do processo, entao é ideal buscar um equilibrio e estabelecer um valor para um quantum que não desperdice tanto a CPU, mas que também nao atrase respostas a interações interativas curtas.
+
+## Question 41
+
+Medidas de um determinado sistema mostraram que o processo típico é executado por um tempo T antes de ser bloqueado na E/S. Uma troca de processo exige um tempo S, que é efetivamente desperdiçado (overhead). Para o escalonamento circular com quantum Q, dê uma fórmula para a eficiência da CPU para cada uma das situações a seguir.
+
+a) Q = ∞
+b) Q > T
+c) S < Q < T
+d) Q = S
+e) Q quase 0
+
+**Answer:**
+
+a) Se Q é infinito significa que a CPU tem o máximo de eficiencia possível.
+
+b) fórmula =  (T/Q+S) *100, exemplo Q = 4ms, T = 3ms, S = 1ms => 3/5 *100 = 60%.
+
+c) como o tempo T é maior que Q significa que todo o tempo restante alem da troca de processo é gasto com processamento: fórmula = ( Q / (Q + S)) * 100, exemplo Q = 4ms, S = 1ms, T = ∞,
+4/5 = 80%
+
+d) nesse caso a eficiencia é 0, pois todo o tempo é gasto apenas para troca de processo.
+
+e) Se Q é quase 0 a eficiencia da CPU também tenderá a 0 pois ainda haverá o tempo de troca de processo que será muito maior que o tempo disponível para processamento.
+
+## Question 42
+
+Cinco tarefas em lote, A e E, chegam quase ao mesmo tempo. Elas têm tempos de execução estimados em 10, 6, 2, 4 e 8. Suas prioridades (externamente determinadas) são 3, 5, 2, 1 e 4, respectivamente, sendo 5 a mais alta. Para cada um dos algoritmos de escalonamento a seguir determine o tempo de retorno médio do processo. Ignore o overhead da troca de processo.
+
+a) Circular.
+b) Escalonamento por prioridade.
+c) Primeiro a chegar, primeiro a ser servido (siga a ordem 10, 6, 2, 4, 8).
+d) Tarefa mais curta primeiro.
+
+Para a), suponha que o sistema é multiprogramado e que cada tarefa recebe sua porção justa de tempo da CPU. Para b) até d), suponha que apenas uma tarefa de cada vez é executada, até terminar. Todas as tarefas são completamente vinculadas a CPU.
+
+**Answer:**
+
+a) escalonamento circular precisa de um quantum(tempo maximo de processamento antes de trocar) vamos assumir que o quantum seja 2ms.
+
+A executa por 2ms - B executa por 2ms - C executa por 2ms(última execução) - D executa por 2ms - E executa por 2ms
+A executa por 2ms - B executa por 2ms - D executa por 2ms(última execução)  - E executa por 2ms
+A executa por 2ms - B executa por 2ms(última execução)  - E executa por 2ms
+A executa por 2ms - E executa por 2ms(última execução) 
+A executa por 2ms(última execução) 
+
+Então temos A = 30ms, B = 22ms, C = 6ms, D = 16ms, E = 28
+
+(30+22+6+16+28)/5 = 20,4ms de tempo de retorno médio.
+
+b) ordem de execução será: B>E>A>C>D
+   (6+14+24+26+30)/5 = 20ms
+
+c) (10+16+18+22+30)/5 = 19,2ms
+
+d) ordem de execução: C>D>B>E>A
+   (2+6+12+20+30)/5 = 14ms
+
+## Question 44
+
+Um processo executando no CTSS precisa de 30 quanta para ser concluído. Quantas vezes ele deve ser trocado para execução, incluindo a primeiríssima vez (antes de ter sido executado)?
+
+**Answer:**
+
+Inicalmente ele executa por um quantum e vai duplicando ao subir o nível, entao:
+1 => 2 => 4 => 8 >= 16
+Ou seja ele precisa ser trocado 5 vezes.
+
+## Question 45
+
+É possível imaginar um modo de evitar que o sistema de prioridade CTSS seja enganado por toques aleatórios da tecla Enter?
+
+**Answer:**
+
+Talvez tirando o controle do usuário e esperando que o proprio processo faça uma chamada de sistema para interatividade, dessa forma evita que o usuário engane o sistema para ganhar mais tempo de CPU.
+
+## Question 46
+
+Considere um sistema de tempo real com duas chamadas de voz de periodicidade de 5ms cada, com um tempo de CPU por chamada de 1ms e um fluxo de vídeo de periodicidade de 33ms com tempo de CPU por chamada de 11ms Esse sistema é escalonavel? Mostre como a sua resposta foi derivada.
+
+**Answer:**
+
+Determinar se um sistema é escalonável é dado por:
+∑Ci/Pi <= 1
+1/5 + 1/5 + 11/33 = 0,733
+
+Então podemos dizer que esse sistema é escalonável.
+
+## Question 47
+
+Para algoritmo anterior, será que outro fluxo de vídeo pode ser acrescentado e ter o sistema ainda escalonável?
+
+**Answer:**
+
+Sim contanto q Ci/Pi não seja maior que 0,27, ou seja se ele tiver um período de 1 segundo, ele nao poderia ter tempo superior a 270ms
+
+## Question 48
+
+Para algoritmo de envelhecimento com a = 1/2 está sendo usado para prever tempos de execução. As quatro execuções anteriores, da mais antiga à mais recente, são 40, 20, 40 e 15 ms, Qual é a previsão do próximo tempo?
+
+**Answer:**
+
+Usando o algoritmo de envelhecimento ficaria:
+15/2 + 40/4 + 20/8 + 40/16
+Privisão para proxima tarefa: 22,5ms 
+
+## Question 49
+
+Um sistema de tempo real não crítico tem quatro eventos periódicos com períodos de 50, 100, 200 e 250 ms cada. Suponha que os quatro eventos exijam 35, 20, 10 e x ms de tempo de CPU, respectivamente. Qual é o maior valor de x de tempo de CPU, respectivamente. Qual é o maior valor de x para o qual o sistema é escalonável.
+
+**Answer:**
+
+∑Ci/Pi <= 1
+35/50 + 20/100 + 10/200 = 0,95
+
+Ou seja Ci/Pi nao pode ser maior q 0,05, como o periodo é 250, então x não pode ser maior que 12,5.
+
+## Question 50
+
+Explique por que o escalonamento de dois níveis é comumente utilizado. Quais são suas vantagens em relação ao escalonamento em nível único.
+
+**Answer:**
+
+Quando cada processo tem múltiplas threads temos dois niveis de paralelismo: processos e threads. Ou seja o escalonamento depende se existe suporte para threads de usuário ou threads de núcleo(ou ambos). Se são apenas threads de usuário o sistema faz o escalonamento como sempre fez tendo em vista apenas os processos, o escalonamento das threads é responsabilidade do processo e não do SO, Já em threads de núcleo o SO tem o controle e realiza o escalonamento. A troca de contexto acontece quando o SO troca de um processo para o outro e é ordens de grandeza mais lenta do que troca de threads em um mesmo processo, então o SO sabe que trocar uma thread dentro de um processo A para uma thread do processo A para o B é muito mais rapido, ele pode levar isso em consideração no seu algoritmo de escalonamento. Threads de usuário tem a desvantegem de que uma operção bloqueante de E/S bloquearia todo o processo, mas por outro lado o maior controle por parte do programador otimiza o escalonamento das threads o nível de conhecimento sobre o que cada thread faz é algo que o SO muitas vezes não consegue levar em consideração.
+
+## Question 51
+
+Um sistema de tempo real precisa lidar com duas chamadas de voz, cada uma executando a cada 5ms e consumindo 1ms de tempo de CPU por surto, mais um vídeo a 25 quadros/s, com cada quadro exigindo 20ms de tempo de CPU. Esse sistema é escalonável? Por favor, explique por que ele é escalonável ou não, e como você chegou a essa conclusão.
+
+**Answer:**
+
+∑Ci/Pi <= 1
+
+duas chamadas de voz + quadro de vídeo = 2*1/5 + (20*25)/1000 = 0,4 + 0,5 = 0,9
+
+Explicação: cada quadro precisa de 20ms de tempo de processamento, mas são necessários 25 quadros com um ciclo de 1000ms, ou seja o sistema precisa processar 500ms de tempo de para processar o vídeo a cada 1 segundo ou 1000ms, então fica 500 / 1000, como o resultado de todos processos de tempo real ficou menor que 1, esse sistema é escalável.
+
+
+## Question 52
+
+Considere um sistema no qual se deseja separar política e mecanismo para escalonamento de threads de núcleo. Proponha um meio de atingir essa meta.
+
+**Answer:**
+
+Threads de núcleo são visualizadas pelo SO, mas ele pode escalona-las de acordo com suas regras, o processo tem um conhecimento mais profundo sobre suas threads e portanto pode fornecer informações da melhor maneira de escaloná-las, a solução é o SO emitir uma chamada de sistema para o processo solicitando os parâmetros de escalonamento, o processo informa esses parâmetros, é o que chamamos de separação entre mecanismo e política de escalonamento.
+
+## Question 53
+
+O problema dos leitores e escritores pode ser formulada de várias maneiras em relação a qual categoria de processo pode ser iniciada e quando. Descreva cuidadosamente três variantes do problema, cada uma favorecendo (ou não favorecendo) alguma categoria de processo (p. ex., leitores ou escritores). Para cada variação, especifique o que acontece quando um leitor ou um escritor está pronto para acessar o banco de dados e o que acontece quando um processo foi concluído.
+
+**Answer:**
+
+1. Dando preferencia aos leitores; isso significa que quando um leitor chegar ele é automaticamente aceito para acessar o banco de dados, essa abordagem tem um atrativo que é o fato de que não há problema em existir multiplos leitores acessando um banco de dados, por outro lado temos um problema de espera eterna por parte dos escritores, como o escritor não poderá acessar a região critica para não causar condição de corrida com os leitores, um escritor pode ficar eternamente na fila, uma vez que mais e mais leitores são aceitos e não sao impedidos.
+
+2. Dando preferencia aos leitores; Situação semelhante dessa vez os escritos são aceitos e postos numa fila, os leitores só podem ter acesso ao banco quando os escritores terminarem seu trabalho, o problema é que como leitores são imediatamente aceitos, o tempo de espera dos leitores pode se estender eternamente.
+
+3. Sem preferencia; leitores e escritores são aceitos sem distinção, evita-se o problema de escritores ou leitores esperarem indefinidamente, entretanto pode-se perder o beneficio de multiplos leitores.
+
+
+## Question 54
+
+Escreva um roteiro (script) shell que produz um arquivo de números sequenciais lendo o último número, somando 1 a ele e então anexando-o ao final do arquivo. Execute uma instância do roteiro no segundo plano e uma no primeiro plano, cada uma acessando o mesmo arquivo. Quanto tempo leva até que a condição de corrida se manifeste? Qual é a região crítica? Modifique o roteiro para evitar a corrida.
+(Dica: use
+    **In file.lock**
+para travar o arquivo de dados.
+)
+
+**Answer:**
+
+A condição de corrida aconteceu muito rapidamente ao executar o script em [race.sh](./codes/race.sh), proximo de 1 segundo de tempo de execução ja foi possível identifica-la, na linha 1256 do arquivo numbers.txt temos um exemplo, o que aconteceu aqui é que o primeiro processo leu a ultima linha(valor 1248) e antes de poder realizar a escrita foi interrompido, o segundo processo então obteve acesso a região crítica leu a ultima linha(1248) e armazenou o valor 1249 na ultima linha do arquivo, o primeiro processo voltou a execução com o valor incorreto da ultima linha realizou a soma (1248 + 1) e armazenou novamento na ultima linha o valor 1249.
+
+Já na execução do segundo script [race_lock.sh](./codes/race_lock.sh)com controle atraves de um lock não foi identificada condição de corrida. 
+
+A região critica representada em  [numbers_lock.sh](./codes/numbers_lock.txt) com controle
+E [numbers.sh](./codes/numbers_lock.txt) região sem controle, contem os números gerados quando fiz os testes e executei os scripts.
+
+
+
 
