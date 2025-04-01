@@ -567,6 +567,4 @@ Suponha que você tenha um sistema operacional que fornece semáforos. Implement
 
 **Answer:**
 
-
-
-
+O programa escrito em [producer_consumer.c](./codes/codes_cpt2/question_55/producer_consumer.c), contem duas threads um produtor de mensagens e um consumidor quando o produtor chega ao limite de mensagens de 10 ele vai dormir, quando o consumidor detecta que está na mensagem de numero 10 ele envia a sinalizaçao com um semaforo para acordar o produtor, da mesma forma quando o produtor detecta que nao havia mensagens supõe que o consumidor estava dormindo e envia o sinal para acorda-lo. Uma situação que pode ocorrer é: o produtor escrever a decima mensagem e antes que possa ir dormir seja interrompido, logo após o consumir ganha tempo de CPU verifica que esta na mensagem 10 e envia o sinal para acordar o produtor, como o produtor nao estava logicamente dormindo o sinal é perdido, logo mais o consumidor esgotara todas mensagens do sistema e também vai dormir, ambos dormirão para sempre. Essa condição de corrida que poderia existir nesse cenário é evitada por conta do uso de semaforos.
