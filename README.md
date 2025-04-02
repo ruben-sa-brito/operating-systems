@@ -1,6 +1,6 @@
 # Soluções de Exercícios - Livro "Sistemas Operacionais" (Tanenbaum)
 
-Este repositório contém as minhas soluções dos exercícios do livro **"Sistemas Operacionais"** de Andrew S. Tanenbaum. O objetivo é compartilhar as respostas organizadas, servindo como material de apoio para mim e para quem se interessar sobre sistemas operacionais.
+Este repositório contém as minhas soluções dos exercícios do livro **"Sistemas Operacionais"** de Andrew S. Tanenbaum, 5ª edição. O objetivo é compartilhar as respostas organizadas, servindo como material de apoio para mim e para quem se interessar sobre sistemas operacionais.
 
 ## Estrutura do Repositório
 
