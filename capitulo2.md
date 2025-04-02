@@ -567,4 +567,12 @@ Suponha que você tenha um sistema operacional que fornece semáforos. Implement
 
 **Answer:**
 
-O programa escrito em [producer_consumer.c](./codes/codes_cpt2/question_55/producer_consumer.c), contem duas threads um produtor de mensagens e um consumidor quando o produtor chega ao limite de mensagens de 10 ele vai dormir, quando o consumidor detecta que está na mensagem de numero 10 ele envia a sinalizaçao com um semaforo para acordar o produtor, da mesma forma quando o produtor detecta que nao havia mensagens supõe que o consumidor estava dormindo e envia o sinal para acorda-lo. Uma situação que pode ocorrer é: o produtor escrever a decima mensagem e antes que possa ir dormir seja interrompido, logo após o consumir ganha tempo de CPU verifica que esta na mensagem 10 e envia o sinal para acordar o produtor, como o produtor nao estava logicamente dormindo o sinal é perdido, logo mais o consumidor esgotara todas mensagens do sistema e também vai dormir, ambos dormirão para sempre. Essa condição de corrida que poderia existir nesse cenário é evitada por conta do uso de semaforos.
+O programa escrito em [producer_consumer.c](./codes/codes_cpt2/question_55/producer_consumer.c), contem duas threads um produtor de mensagens e um consumidor, quando o produtor chega ao limite de mensagens de 10 ele vai dormir, quando o consumidor detecta que está na mensagem de numero 10 ele envia a sinalizaçao com um semaforo para acordar o produtor, da mesma forma quando o produtor detecta que nao havia mensagens supõe que o consumidor estava dormindo e envia o sinal para acorda-lo. Uma situação que pode ocorrer é: o produtor escrever a decima mensagem e antes que possa ir dormir seja interrompido, logo após o consumir ganha tempo de CPU verifica que está na mensagem 10 e envia o sinal para acordar o produtor, como o produtor nao estava logicamente dormindo o sinal é perdido, logo mais o consumidor esgotará todas mensagens do sistema e também vai dormir, ambos dormirão para sempre. Essa condição de corrida que poderia existir nesse cenário é evitada por conta do uso de semaforos.
+
+## Question 56
+
+Reescreva o programa da figura 2.23 para lidar com mais do que dois processos.
+
+**Answer:**
+
+O programa em 2.23 funciona com um mutex que é uma estrutura simples de controle de acesso a região crítica que impede que mais de uma thread ou processo tenha acesso a região crítica, para lidar com mais processos é necessario usar um semaforo que estabelece um limite de conexões.
