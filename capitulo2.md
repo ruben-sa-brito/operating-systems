@@ -575,4 +575,4 @@ Reescreva o programa da figura 2.23 para lidar com mais do que dois processos.
 
 **Answer:**
 
-O programa em 2.23 funciona com um mutex que é uma estrutura simples de controle de acesso a região crítica que impede que mais de uma thread ou processo tenha acesso a região crítica, para lidar com mais processos é necessario usar um semaforo que estabelece um limite de conexões.
+O programa em 2.23 funciona com um mutex que é uma estrutura simples de controle de acesso a região crítica que impede que mais de uma thread ou processo tenha acesso a região crítica, para lidar com mais processos é necessario usar um semaforo que estabelece um limite de conexões. O codigo original do livro foi modificado para adicionar um semaforo e nao bloquear threads consumidoras, com um limite de 3 threads, a condição de corrida ainda assim nao seria impedida apenas com semaforos de multiplas threads. (esse codigo está incompleto e nao funcionaria, é apenas um esboço.)
