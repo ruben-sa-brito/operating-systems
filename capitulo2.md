@@ -576,3 +576,17 @@ Reescreva o programa da figura 2.23 para lidar com mais do que dois processos.
 **Answer:**
 
 O programa em 2.23 funciona com um mutex que é uma estrutura simples de controle de acesso a região crítica que impede que mais de uma thread ou processo tenha acesso a região crítica, para lidar com mais processos é necessario usar um semaforo que estabelece um limite de conexões. O codigo original do livro foi modificado para adicionar um semaforo e nao bloquear threads consumidoras, com um limite de 3 threads, a condição de corrida ainda assim nao seria impedida apenas com semaforos de multiplas threads. (esse codigo está incompleto e nao funcionaria, é apenas um esboço.)
+
+## Question 57
+
+Escreva um problema produtor-consumidor que use threads e compartilhe de um buffer comum. No entando, não use semáforos ou quaiser outras primitivas de sincronização para proteger as estruturas de dados compartilhados. Apenas deixe cada thread acessá-las quando quiser. Use sleep e wakeup para lidar com condições de cheio e vazio. Veja quanto tempo leva até que ocorra uma condição de corrida fatal. Por exemplo, você pode ter o produtor imprimindo um número a cada minuto, pois E/S pode afetar condições de corrida.
+
+**Answer:**
+código disponível em: [producer_consumer.c](./codes/codes_cpt2/question_57/producer_consumer.c)
+
+Como descrito no problema não foi usado nenhum mecanismo de controle de área critica, apenas mensagens de wakeup e sleep, utilizei apenas variaveis globais para representa-los, foi possivel notar a de corrida após alguns minutos (sleep global definido para 500ms):
+
+1. o produtor envia mensagens para o consumidor quando ele verifica que a quantidade de mensagens está vazio
+2. o consumidor envia mensagens ao produtor quando as mensagens estão cheias
+
+Eventualmente o consumidor consome todas mensagens e antes de ter a oportunidade de ir dormir, é interrompido, o produtor verifica que as mensagens estão vazias e envia uma mensagem para o consumidor acordar, mas o consumidor não está logicamente dormindo e a mensagem é perdida, o consumidor volta a execução logo em seguida e vai dormir, eventualmente o produtor lota a caixa de mensagens e também vai dormir, ambos dormirão para sempre.
