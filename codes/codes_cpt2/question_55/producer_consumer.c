@@ -6,8 +6,6 @@
 
 #define MAX_MSG 10
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
 sem_t semaforo;
 
 void* producer() {
