@@ -598,3 +598,12 @@ Um processo pode ser colocado em uma fila circular mais de uma vez para que ele 
 **Answer:**
 
 Gerei numeros de 0 até 500000 utilizando o código em [number_generator.c](./codes/codes_cpt2/question_58/utils/number_generator.c), no código contido em [is_prime.c](./codes/codes_cpt2/question_58/is_prime.c.c) separei o processamento em duas threads uma testa a primalidade até 350000 a outra o restante, tambem criei uma thread que faz todo o processamento sozinha, com multiplas threads o tempo medio é de aproximadamente 2.2s, ja com uma única thread o tempo é de 3.3s.
+
+## Question 59
+
+Implemente um programa para contar a frequência de palavras em um arquivo de texto. O arquivo de texto é dividido em N segmentos. Cada segmento é processado por uma thread em separado, que produz a contagem de frequência intermediária para esse segmento. O processo principal espera até que todas as threads terminem; então ela calcula os dados de frequência de palavras consolidadas com base no resultado das threads individuais.
+
+**Answer:**
+
+Programa escrito em [words_counter.c](./codes/chapter_2/question_59/words_counter.c) o arquivo 
+[text.txt](./codes/chapter_2/question_59/text.txt) é divido e cada thread é responsavel por contar a quantidade de palavras "ipsum" em sua respectiva parte, o programa principal espera até que todas threads concluam seu trabalho e usa o resultados para calcular o valor total de palavras.
