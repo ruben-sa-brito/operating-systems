@@ -15,7 +15,7 @@
 //         if (count_n == 24){
 //             printf("%ld\n", ftell(arq));
 
-//         }3580 1744
+//         }
 //     }
 //     printf("%ld\n", ftell(arq));
 // }
@@ -24,13 +24,11 @@
 void* collect_primes_thread(void *start_end){
     FILE *arq = fopen("text.txt", "a+");
     int *pos = (int *)start_end; 
-    printf("oii %d\n",pos[0]);
     fseek(arq, pos[0], SEEK_SET);
     char c;
     char word_temp[1000];
     int *total_words = malloc(sizeof(int));
     int i = 0;
-    printf("oi estou aqui");
     while(ftell(arq) < pos[1] && fread(&c, sizeof(char), 1, arq)) {
         
         if (c == ' ' || c == ',' || c == '.' || c == ';' || c == ':') {
