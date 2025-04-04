@@ -590,3 +590,11 @@ Como descrito no problema não foi usado nenhum mecanismo de controle de área c
 2. o consumidor envia mensagens ao produtor quando as mensagens estão cheias
 
 Eventualmente o consumidor consome todas mensagens e antes de ter a oportunidade de ir dormir, é interrompido, o produtor verifica que as mensagens estão vazias e envia uma mensagem para o consumidor acordar, mas o consumidor não está logicamente dormindo e a mensagem é perdida, o consumidor volta a execução logo em seguida e vai dormir, eventualmente o produtor lota a caixa de mensagens e também vai dormir, ambos dormirão para sempre.
+
+## Question 58
+
+Um processo pode ser colocado em uma fila circular mais de uma vez para que ele receba uma prioridade mais alta. Executar instâncias múltiplas de um programa, cada uma trabalhando em uma parte diferente de um pool de dados, pode ter o mesmo efeito. Primeiro escreva um programa que teste uma lista de números para primalidade. Então crie um método para permitir que múltiplas instâncias do programa sejam executadas ao mesmo tempo de tal maneira que duas instâncias do programa não trabalharão sobre o mesmo número. Você consegue de fato repassar mais rápido a lista executando múltiplas cópias do programa? Observe que seus resultados dependerão do que mais seu computador estiver fazendo; em um computador pessoal executando apenas instâncias desse programa você não esperaria uma melhora, mas em um sistema com outros processos, dessa maneira você deve conseguir ficar com uma porção maior da CPU.
+
+**Answer:**
+
+Gerei numeros de 0 até 500000 utilizando o código em [number_generator.c](./codes/codes_cpt2/question_58/utils/number_generator.c), no código contido em [is_prime.c](./codes/codes_cpt2/question_58/is_prime.c.c) separei o processamento em duas threads uma testa a primalidade até 350000 a outra o restante, tambem criei uma thread que faz todo o processamento sozinha, com multiplas threads o tempo medio é de aproximadamente 2.2s, ja com uma única thread o tempo é de 3.3s.
