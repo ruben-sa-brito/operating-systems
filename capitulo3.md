@@ -360,3 +360,74 @@ pagina 0 - 00000000 → 10000000 → 11000000 → 11100000 → 01110000 → 1011
 pagina 1 - 10000000 → 01000000 → 00100000 → 100100000 → 01001000 → 00100100 → 10010010 → 01001001
 pagina 2 - 10000000 → 11000000 → 11100000 → 01110000 → 10111000 → 11011100 → 01101110 → 00110111
 pagina 3 - 10000000 → 11000000 → 01100000 → 10110000 → 01011000 → 10101100 → 11010110 → 11101011
+
+## Question 31
+
+Dê um exemplo simples de uma sequência de referências de páginas onde a primeira página selecionada para a substituição será diferente para os algoritmos de substituição de página LRU e do relógio. Suponha que três quadros sejam alocados a um processo, e a sequencia de referências contenha números de páginas do conjunto 0, 1, 2, 3.
+
+**Answer:**
+
+No algoritmo de relógio as paginas são inseridas no relógio na ordem em que são colocadas na memória, semelhante ao FIFO, o relogio começa apontando para a primeira página inserida (ou seja mais antiga) se o bit for 0 a pagina é substituida se não o bit é limpo e o relogio avança uma posição. Ja no LRU o que importa é quanto tempo a pagina está sem ser usada. Vamos supor a seguinte sequencia de paginas 0 → 1 → 0 → 2 → 1 → 0 → 0 → 0 → 0 →  2 → 0 → 2 → 2 → 2 → 3, o relogio irá apontar para a pagina 0, mas o bit é 0 suponto que está a um tempo sem ser usada e o bit tenha sido limpo, e apesar de ter sido a pagina mais usada levando a sequencia inteira em consideração, ela será removida, enquanto o LRU irá remover a pagina que está a mais tempo sem ser referenciada, ou seja a pagina 1.
+
+## Question 32
+
+Um estudante afirmou que "em suma, os algoritmos básicos de substituição de página (FIFO, LRU, ótimo) são idênticos, exceto pelo atributo usado para selecionar a página a ser substituída".
+
+**Answer:**
+
+a) Qual é esse atributo para o algoritmo FIFO? E para o LRU? E para o algoritmo ótimo?
+
+FIFO - O atributo seria a idade da pagina, vai utilizar a ordem de inserção na fila de paginas, removendo o primeiro elemento da fila, ou seja a página mais antiga.
+LRU - utiliza o atributo de referencia de página, armazenando um valor indicando quando foi a ultima vez que aquela pagina foi utilizada, eliminando a pagina que está ha mais tempo sem ser referenciada.
+Ótimo - algorítmo ótimo é apenas teórico, haveria um rótulo(este é o atributo) em cada página, indicando por quantas instruções aquela página não vai ser usada(ou seja seria um algorimto capaz de prever o futuro), assim, a página com maior rótulo seria removida.
+
+b) Dê o algoritmo genérico para esses algoritmos de substituição de página.
+
+Uma pagina p é referenciada: 
+Situação 1 - p ja esta na memoria, entao atualize o atributo de p, e continue.
+Situação 2 - p nao está na memoria física, verifique se há espaço disponivel, coloque p em um quadro livre e inicie seu atributo, continue.
+Situação 3 - p não esta na memoria e nao existe espaço livre, ocorre uma page fault, então será necessario remover uma página, com base no atributo escolhido como criterio de seleção substitua a página correspondente por p e inicialize o atributo de p.
+
+## Question 33
+
+Quanto tempo é necessário para carregar um programa de 64KB de um disco cujo tempo médio de procura é 5ms, cujo tempo de rotação é 5ms e cujas trilhas contêm 1MB
+
+a) para um tamanho de página de 2KB?
+b) para um tamanho de página de 4KB?
+
+As páginas estão espalhadas aleatoriamente em torno do disco e o número de cilindros é tão grande que a chance de duas páginas estarem no mesmo cilindro é desprezível.
+
+**Answer:**
+
+O disco leva 5ms para encontrar o cilindro (trilha) e mais 2,5ms para encontrar o setor dentro da trilha(vamos supor aqui um tempo médio), ou seja 7,5ms para cada pagina(desprezando o tempo de transferencia). 
+
+a) 64/2 = 32 páginas -> 32 * 7,5 = 240ms
+b) 64/4 = 16 páginas -> 16 * 7,5 = 120ms
+
+## Question 34
+
+Considere o algoritmo de substituição de página FIFO e aseguinte sequência de referência:
+1 2 3 4 1 2 5 1 2 3 4 5
+Quando o número de quadros de página aumenta de três para quatro, o número de faltas de página diminui, permanece o mesmo ou aumenta? Explique sua resposta.
+
+**Answer:**
+
+Para ajudar um pouco a visualizar o comportamento do algoritmo criei um pequeno script escrito em python disponível em [faults_counter.py](./codes/chapter_3/faults_counter.py). 
+Inesperadamente, nessa sequência de referências, usar quatro quadros de página resulta em mais page faults do que usar três.
+O que percebi é que, com 3 quadros, as páginas 1 e 2 são removidas e logo reinseridas no início da fila, o que as coloca em uma posição favorável, já que elas serão utilizadas novamente logo em seguida.
+Já com 4 quadros, essas páginas acabam sendo removidas uma após a outra exatamente no momento em que serão referenciadas novamente, resultando em um número maior de page faults.
+
+## Question 35
+
+Um computador tem quatro quadros de páginas. O tempo de carregamento, o tempo de último acesso e os bits R e M para cada página são como os mostrados a seguir (os tempos estçao em interrupções de relógio):
+
+| Página  | Carregado| Última referência | R | M |
+|:--------|:---------|:------------------|:--|:--|
+| 0       | 126      | 280               | 1 | 0 |
+| 1       | 230      | 265               | 0 | 1 |
+| 2       | 140      | 270               | 0 | 0 |
+| 3       | 110      | 285               | 1 | 1 |
+
+
+
+**Answer:**
