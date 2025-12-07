@@ -419,7 +419,7 @@ Já com 4 quadros, essas páginas acabam sendo removidas uma após a outra exata
 
 ## Question 35
 
-Um computador tem quatro quadros de páginas. O tempo de carregamento, o tempo de último acesso e os bits R e M para cada página são como os mostrados a seguir (os tempos estçao em interrupções de relógio):
+Um computador tem quatro quadros de páginas. O tempo de carregamento, o tempo de último acesso e os bits R e M para cada página são como os mostrados a seguir (os tempos estão em interrupções de relógio):
 
 | Página  | Carregado| Última referência | R | M |
 |:--------|:---------|:------------------|:--|:--|
@@ -428,6 +428,163 @@ Um computador tem quatro quadros de páginas. O tempo de carregamento, o tempo d
 | 2       | 140      | 270               | 0 | 0 |
 | 3       | 110      | 285               | 1 | 1 |
 
-
+a) Qual página NRU substituirá?
+b) Qual página FIFO substituirá?
+c) Qual página LRU substituirá?
+d) Qual página o algoritmo da segunda chance substituirá?
 
 **Answer:**
+
+a) NRU verifica os bits R e M para identificar qual página substituir, a página de menor classe é substituida, nesse caso a página 2.
+
+b) FIFO mantem uma lista de página e elimina a página mais antiga, nesse caso a primeira pagina é a 3.
+
+c) LRU (usada menos recentemente) elimina a página que está a mais tempo sem ser usada: pagina 1.
+
+d) Semelhante ao FIFO mas nao elimina paginas que tem bit R = 1, primeiro o bit é limpo e realocado na fila dando uma segunda chance. Então as páginas  3 e 0 terão seus bits limpos e não serão removidas, entao a página 2 é eliminada.
+
+## Question 36
+
+Suponha que dois processos A e B compartilhem uma página que não está na memória. Se o processo A gera uma falta na página compartilhada, a entrada de tabela de página para o processo A deve ser atualizada assim que a página for lida na memória.
+
+a) Em quais condições a atualização da tabela de páginas para o processo B deve ser atrasada, mesmo que o tratamento da falta da página A traga a página compartilhada para a memória? Explique.
+b) Qual é o custo potencial de se atrasar a atualização da tabela de páginas.
+
+**Answer:**
+
+a) Não se sabe se B utilizará a página, talvez seja mais interessante esperar que B solicite a página então só assim atualizar a tabela de páginas.
+
+b) Quando B realmente precisar da página a execução será um pouco mais lenta pois terá um custo adicional de atualizar a tabela virtual de B.
+
+## Question 37
+
+Considere o arranjo bidimensional a seguir:
+int X[64][64];
+
+Suponha que um sistema tenha quatro quadros de páginas e cada quadro tenha 128 palavras (um inteiro ocupa uma palavra). Programas que manipulam o arranjo X cabem exatamente em uma página e sempre ocupam a página 0. Os dados são trocadas para o disco e memória nos outros três quadros. O arranjo X é armazenado em uma ordem linha a linha (i.e., X[0][1] vem após X[0][0] na memória ). Qual dos dois fragmentos de código mostrado a seguir gera o número mais baixo de faltas de página? Explique e calcule o número total de falta de página.
+
+```c
+//Fragmento A
+for (int j = 0; j < 64; j++)
+    for (int i = 0; i < 64; i++) X[i][j] = 0
+
+//Fragmento B
+for (int i = 0; i < 64; i++)
+    for (int j = 0; j < 64; j++) X[i][j] = 0
+```
+
+**Answer:**
+
+O fragmento A a quantidade de falta de páginas é bem maior, basicamente a cada duas iterações do laço interno ocorre uma falta de página pois está 'pulando' de linha em linha. Já no fragmento B as faltas de páginas ocorrem a cada 2 iterações do laço principal, que é quando toda a página é utilizada.
+
+Cálculo: 
+
+Fragmento A: 64 iterações do laço principal, para cada iteração sao 64 iterações do laço interno e a cada 2 ocorre uma falta de página 64/2 = 32 faltas de pagina, 64 * 32 = 2048 faltas de página.
+
+Fragmento B: Falta de página a cada 2 iterações do laço principal: 64/2 = 32 faltas de páginas.
+
+Obs: Incrivel como um pequena mudança na forma como se percorre o array melhorará o desempenho do algoritmo significativamente.
+
+## Question 38
+
+Uma das primeiras máquinas de compartilhamento de tempo, o DEC PDP-1, tinha uma memória (núcleo) com 4K palavras de 18 bits. Ele executava um processo de cada vez em sua memória. Quando o escalonador decidia executar outro processo, o processo na memória era escrito para um tambor de paginação, com 4K palavras de 18 bits em torno da circunferência do tambor. O tambor podia começar a escrever (ou ler) em qualquer palavra, em vez de somente na palavra 0. Por que você acha que esse tambor foi escolhido?
+
+**Answer:**
+
+Como nesse caso a máquina era compartilhada por diversos usuarios a troca de processos é constante, devido a forma como um tambor funciona (continuarmente girando), ele pode começar a escrita do novo processo em qualquer ponto que a cabeça estiver e escrever a partir dali economizando o tempo de poisicionamento da cabeça, por isso que ele provavelmente foi escolhido.
+
+## Question 39
+
+Uma computador fornece a cada processo 65.536 bytes de espaço de endereçamento divididos em páginas de 4.096 bytes cada. Um programa em particular tem um tamanho de texto de 32.768 bytes, um tamanho de dados de 16.386 bytes e um tamanho de pilha de 15.870 bytes. Esse programa caberá no espaço de endereçamento da máquina? Suponha que uma vez de 4.096 bytes, o tamanho da página fosse 512 bytes; eles caberiam então? Cada página deve conter texto, dados ou pilha, não uma mistura de dois ou três deles.
+
+**Answer:**
+
+Total de páginas do sistema de 4096 bytes: 65.536/4096 = 16
+Total de páginas do sistema de 512 bytes: 65.536/512 = 128
+
+Quantidade de páginas necessarias para um tamanho de página de 4096 bytes:
+* Texto: 32.768 / 4096 = 8
+* Dados: 16.386 / 4096 = 4,0004 -> 5 páginas necessarias
+* Pilha: 15.870 / 4096 = 3,87 -> 4 páginas necessarias
+total: 8+5+4 = 17 páginas, ou seja esse processo não terá paginas suficientes para ser executado nesse sistema.
+
+Quantidade de páginas necessarias para um tamanho de página de 512 bytes:
+* Texto: 32.768 / 512 = 64
+* Dados: 16.386 / 512 = 32,003 -> 33 páginas necessarias
+* Pilha: 15.870 / 512 = 30,05 -> 31 páginas necessarias
+total: 64+33+31 = 128 páginas, ou seja com um tamanho de página de 512 bytes esse processo terá páginas suficiente para ser executado.
+
+## Question 40
+
+Uma página pode estar em dois conjuntos de trabalho ao mesmo tempo? Explique.
+
+**Answer:**
+
+O SO pode manter um conjunto de trabalho para cada processo, se um processo A tem páginas compartilhadas com o processo B, é possivel que estas páginas estejam presentes no conjunto de trabalho de ambos os processos.
+
+## Question 41
+
+Se uma páginas for compartilhada entre dois processos, é possível que a página seja somente de leitura para um processo e de leitura-escrita para o outro? Por quê?
+
+**Answer:**
+
+Páginas de dados compartilhadas entre processos são somente leitura, quando um processo modifica uma palavra gera uma captura para o sistema operacional por violar essa restrição, uma copia da página é criada para cada processo e ambas são leitura-escrita.
+
+## Question 42
+
+Observou-se que o número de instruções executadas entre faltas de páginas é diretamente proporcional ao número de quadros de páginas alocadas para um programa. Se a memória disponível for dobrada, o intervalo médio entre as faltas de páginas também será dobrado. Suponha que uma instrução normal leve 1us, mas se uma falta de página ocorrer, ela leva 2001us (i.e., 2ms) para lidar com a falta. Se um programa leva 60s para ser executado, tempo em que ocorrem 15.000 faltas de páginas, quanto tempo ele levaria para ser executado se duas vezes mais memória estivesse disponível?
+
+**Answer:**
+
+obs: vou considerar o tempo de tratamento de falta de página como 2000us
+
+para saber o intervalo de tempo que ocorrem essas faltas de paginas:
+(x + 0,002)*15000 = 60s -> 15000x + 30 = 60 -> 15000x = 30 -> x = 30/15000 -> x = 0,002
+
+ou seja uma falta de página ocorre aproximadamente a cada 0,002s, tambem precisamos calcular quanto tempo esse programa precisa para concluir sua execução: 
+60 - (15000 * 0,002) = 30s
+
+Tomando como verdade a premissa apresentada na questão de que com o dobro de memória o tempo de intervalo é dobrado então teriamos um intervalo aproximado de 0,004s entre as faltas de páginas com o dobro de memória:
+
+Com o dobro de memória teriamos 7500 faltas de páginas, (metade de 15000)
+
+Podemos calcular o tempo total multiplicando a quantidade de faltas de paginas pelo tempo de execução + o tempo da falta de página:
+(0,004+0,002)*7500 -> 0,006*7500 = 45s
+
+Tempo total de execução com o dobro de memória é 45s
+
+## Question 43
+
+Um grupo de projetistas de sistemas operacionais para Frugal Computer Company está pensando sobre maneiras de reduzir a quantidade de armazenamento de apoio necessário em seu novo sistema operacional. O gerente de projeto sugeriu há pouco que não era necessário se incomodar em salvar o código do programa na área de troca, afirmando que paginá-lo diretamente do arquivo binário onde quer que ele seja necessário seria suficiente. Em quais condições, se houver, essa ideia funciona para o código do programa? Em quais condições, se houver, isso funciona para os dados?
+
+**Answer:**
+
+Código imutavel dispensa ser armazenado na área de swap uma vez que eles não são alterados e podem sempre ser adquiridos do arquivo original, o raciocínio é semelhante para dados, funciona bem se são dados constantes (que não mudam). Basicamente arquivos que são read-only dispensam ser armazenados na área de swap.
+
+## Question 44
+
+Uma instrução em linguagem de máquina para carregar uma palavra de 32 bits em um registrador contém o endereço de 32 bits da palavra a ser carregada. Qual é o número máximo de faltas de páginas que essa instrução pode causar?
+
+**Answer:**
+
+Essa instrução contem 2 partes:
+[Código da operação][Operando]
+Todas essas partes da instrução podem causar falta de página mas no pior cenário cada parte pode estar distribuida em 2 paginas causando no máximo 4 faltas de página. 
+
+## Question 45
+
+Explique a diferença entre fragmentação interna e fragmentação externa. Qual delas ocorre nos sistemas de paginação? Qual delas ocorre em sistemas usando segmentação pura.
+
+**Answer:**
+
+Fragmentação interna é quando existe espaço vazio inutilizado dentro de um mesmo bloco, fragmentaçao externa é um conjunto de blocos livres dispersos mas que não podem ser usados pois não estão contiguos na memória.
+No sistema de páginação o mais comum é a fragmentação interna pois a memoria é dividida em páginas que por sua vez podem não ser usadas completamente (geralmente a utima pagina utilizada pelo processo vai ter uma area vazia inutilizada).
+Ja na segmentação pura é mais comum a segmentaçao externa, pois cada processo recebe um segmento continuo de memoria e a medida que mais e mais programas chegam e saem se cria areas fragmentadas que apesar de juntas serem suficiente nao podem ser utilizada pois não estão contíguas na memória.
+
+## Question 46
+
+Quando tanto segmentação quanto paginação estão sendo usadas, como no MULTICS, primeiro o descritor do segmento precisa ser examinado, então o descritor da página. O TLB também funciona dessa maneira, com dois níveis de verificação?
+
+**Answer:**
+
+O TLB funciona como um cache armazenando as paginas virtuais mais usadas para seu quadro fisico correspondente, no MULTICS primeiro o segmento deve ser encontrado para só então descobri qual o quadro fisico, o problema é que o TLB teria que ser adaptado para esse cenário pois havira duplicidade, então é necessario armazenar na TLB de qual segmento se trata. 
