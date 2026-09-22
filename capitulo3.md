@@ -19,7 +19,7 @@ Neste problema, você deverá comparar o armazenamento necessário para controla
 **Answer:**
 
 1. Uma memória de 8 GB teria aproximadamente 8.000 bits(1.000 bytes, usando base decimal) de tamanho de mapa de bits se fosse dividida em unidades de 1mb, ja na lista encadeada como precisariamos de 8000 nós para compor toda a memoria, cada nó vai consumir 64 bits para o campo de endereço, comprimento e endereço do próximo nó, totalizando 512.000 bits(64.000 bytes) aqui vemos uma vantagem do mapa de bits, ele consome bem menos espaço. Entretanto percorrer um mapa de bits em procura do espaço adequado para o processo é mais custoso que uma lista encadeada, a lista encadeada trabalha com intervalos(ex: o endereço 3000 ao 4000 está vazio) facilitando o processamento. 
-2. A escolha entre mapa de bits e lista encadeada depende do ambiente. Mapa de bits podem ocupar menos espaço mas são lentos para operações de busca e inserção, lista encadeadas são mais rapidas, mas tem problemas de fragmentação pois trabalham com intervalos.
+2. A escolha entre mapa de bits e lista encadeada depende do ambiente. Mapa de bits podem ocupar menos espaço são mais rapidos para operações de busca, mas apresentam problemas de fragmentação interna, mas por outro lado o sistema operacional pode pesquisar rapidamente no mapa de bits e tentar reduzir os problemas de fragmentação externa, ja a lista encadeada apresenta tamanho mais flexivel (o mapa de bits tem tamanho fixo), operaçoes de liberação de memoria tende a ser mais rapidas, pois basta modificar o ponteiro, na lista encadeada nao temos problemas de fragmentação interna, pois se trabalha com intervalos.
 
 ## Question 3
 
